@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROJECT_DIR="/Users/grigorymordokhovich/Documents/Develop/Charging Power MacOS"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_DIR"
 
 APP_DISPLAY_NAME="${APP_DISPLAY_NAME:-PowerApp}"
@@ -10,7 +10,7 @@ BUNDLE_ID="${BUNDLE_ID:-com.grigorym.ChargingPowerMenuBar}"
 APP_DIR="${APP_DIR:-dist/${APP_DISPLAY_NAME}.app}"
 INSTALL_DIR="${INSTALL_DIR:-/Applications/${APP_DISPLAY_NAME}.app}"
 LEGACY_INSTALL_DIR="${LEGACY_INSTALL_DIR:-/Applications/Charging Power.app}"
-ICON_SOURCE="${ICON_SOURCE:-/Users/grigorymordokhovich/Documents/Develop/Charging Power MacOS/Assets/AppIcon.icns}"
+ICON_SOURCE="${ICON_SOURCE:-$PROJECT_DIR/Assets/AppIcon.icns}"
 SKIP_SIGN="${SKIP_SIGN:-0}"
 SIGN_IDENTITY="${SIGN_IDENTITY:-}"
 RESOLVED_SIGN_IDENTITY=""

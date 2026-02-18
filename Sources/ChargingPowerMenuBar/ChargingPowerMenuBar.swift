@@ -192,20 +192,6 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
     }
 
     private func updateBatteryIcon(isOnACPower: Bool, currentCapacityPercent: Int?) {
-        let variableLevel = batteryVariableLevel(from: currentCapacityPercent)
-        let symbolName = isOnACPower ? "battery.100percent.bolt" : "battery.100percent"
-
-        if #available(macOS 13.0, *),
-           let image = NSImage(
-               systemSymbolName: symbolName,
-               variableValue: variableLevel,
-               accessibilityDescription: "Battery"
-           ) {
-            image.isTemplate = true
-            statusItem.button?.image = image
-            return
-        }
-
         let fallbackSymbolName = batterySymbolName(
             currentCapacity: currentCapacityPercent,
             isCharging: isOnACPower
@@ -220,24 +206,21 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
         statusItem.button?.image = fallbackImage
     }
 
-    private func batteryVariableLevel(from currentCapacity: Int?) -> Double {
-        guard let currentCapacity else { return 1.0 }
-        let normalized = Double(currentCapacity) / 100.0
-        return min(max(normalized, 0.0), 1.0)
-    }
-
     private func batterySymbolName(currentCapacity: Int?, isCharging: Bool) -> String? {
         guard let currentCapacity else { return "battery.100" }
+        let clamped = min(max(currentCapacity, 0), 100)
 
         let levelSymbol: String
-        switch currentCapacity {
-        case ..<10:
+        switch clamped {
+        case 0:
             levelSymbol = "battery.0"
-        case ..<35:
+        case 1..<20:
             levelSymbol = "battery.25"
-        case ..<65:
+        case 20..<40:
             levelSymbol = "battery.50"
-        case ..<90:
+        case 40..<60:
+            levelSymbol = "battery.50"
+        case 60..<100:
             levelSymbol = "battery.75"
         default:
             levelSymbol = "battery.100"

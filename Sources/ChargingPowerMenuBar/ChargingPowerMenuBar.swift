@@ -196,14 +196,16 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
             currentCapacity: currentCapacityPercent,
             isCharging: isCharging
         )
-        guard let fallbackSymbolName else {
-            statusItem.button?.image = nil
+        if let fallbackSymbolName,
+           let fallbackImage = NSImage(systemSymbolName: fallbackSymbolName, accessibilityDescription: "Battery") {
+            fallbackImage.isTemplate = true
+            statusItem.button?.image = fallbackImage
             return
         }
 
-        let fallbackImage = NSImage(systemSymbolName: fallbackSymbolName, accessibilityDescription: "Battery")
-        fallbackImage?.isTemplate = true
-        statusItem.button?.image = fallbackImage
+        let finalFallback = NSImage(systemSymbolName: "battery.100", accessibilityDescription: "Battery")
+        finalFallback?.isTemplate = true
+        statusItem.button?.image = finalFallback
     }
 
     private func batterySymbolName(currentCapacity: Int?, isCharging: Bool) -> String? {
@@ -227,13 +229,10 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
         }
 
         if isCharging {
-            switch levelSymbol {
-            case "battery.0": return "battery.25.bolt"
-            case "battery.25": return "battery.25.bolt"
-            case "battery.50": return "battery.50.bolt"
-            case "battery.75": return "battery.75.bolt"
-            default: return "battery.100.bolt"
+            if levelSymbol == "battery.100" {
+                return "battery.100.bolt"
             }
+            return levelSymbol
         }
 
         return levelSymbol

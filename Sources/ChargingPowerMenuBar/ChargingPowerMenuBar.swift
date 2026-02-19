@@ -119,7 +119,7 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
         }
 
         updateBatteryIcon(
-            isOnACPower: liveMetrics.isOnACPower,
+            isCharging: liveMetrics.isCharging,
             currentCapacityPercent: cachedCurrentCapacityPercent
         )
         updateDetailsMenu(
@@ -191,10 +191,10 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
         conditionItem.title = "Condition: \(condition)"
     }
 
-    private func updateBatteryIcon(isOnACPower: Bool, currentCapacityPercent: Int?) {
+    private func updateBatteryIcon(isCharging: Bool, currentCapacityPercent: Int?) {
         let fallbackSymbolName = batterySymbolName(
             currentCapacity: currentCapacityPercent,
-            isCharging: isOnACPower
+            isCharging: isCharging
         )
         guard let fallbackSymbolName else {
             statusItem.button?.image = nil
@@ -214,14 +214,14 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
         switch clamped {
         case 0:
             levelSymbol = "battery.0"
-        case 1..<20:
+        case 1..<25:
             levelSymbol = "battery.25"
-        case 20..<40:
+        case 25..<50:
             levelSymbol = "battery.50"
-        case 40..<60:
-            levelSymbol = "battery.50"
-        case 60..<100:
+        case 50..<75:
             levelSymbol = "battery.75"
+        case 75..<100:
+            levelSymbol = "battery.100"
         default:
             levelSymbol = "battery.100"
         }

@@ -2,6 +2,8 @@
 
 Current release: `1.0`
 
+SleepLock is a native macOS menu bar utility that controls when your Mac is allowed to sleep & when your Mac stays awake.
+
 A lightweight macOS menu bar app that shows:
 - current charging power (`W`) or power source status (`AC`);
 - current battery charge (`%`);

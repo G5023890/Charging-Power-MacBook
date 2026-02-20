@@ -7,6 +7,8 @@ cd "$PROJECT_DIR"
 APP_DISPLAY_NAME="${APP_DISPLAY_NAME:-PowerApp}"
 EXECUTABLE_NAME="${EXECUTABLE_NAME:-ChargingPowerMenuBar}"
 BUNDLE_ID="${BUNDLE_ID:-com.grigorym.ChargingPowerMenuBar}"
+RELEASE_VERSION="${RELEASE_VERSION:-1.0}"
+RELEASE_BUILD="${RELEASE_BUILD:-1}"
 APP_DIR="${APP_DIR:-dist/${APP_DISPLAY_NAME}.app}"
 INSTALL_DIR="${INSTALL_DIR:-/Applications/${APP_DISPLAY_NAME}.app}"
 LEGACY_INSTALL_DIR="${LEGACY_INSTALL_DIR:-/Applications/Charging Power.app}"
@@ -158,9 +160,9 @@ ${ICON_PLIST_BLOCK}
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>1.0</string>
+  <string>${RELEASE_VERSION}</string>
   <key>CFBundleVersion</key>
-  <string>1</string>
+  <string>${RELEASE_BUILD}</string>
   <key>LSMinimumSystemVersion</key>
   <string>13.0</string>
   <key>LSUIElement</key>

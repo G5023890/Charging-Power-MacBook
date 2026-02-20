@@ -2,16 +2,15 @@
 
 Current release: `1.0`
 
-SleepLock is a native macOS menu bar utility that controls when your Mac is allowed to sleep & when your Mac stays awake.
-
-A lightweight macOS menu bar app that shows:
+A lightweight native macOS menu bar app that shows:
 - current charging power (`W`) or power source status (`AC`);
 - current battery charge (`%`);
-- `Maximum Capacity` and `Condition` in the dropdown menu.
+- battery `Maximum Capacity` and `Condition` in the dropdown menu.
 
 ## Features
 
-- Battery icon in the menu bar with 25% level gradations.
+- Battery icon with 25% level gradations (`25/50/75/100`).
+- Charging state icon behavior adjusted for system symbol compatibility.
 - Reduced status text size (about 10%) for cleaner menu bar layout.
 - `Launch at Login` toggle.
 - Manual refresh via `Update now`.
@@ -19,7 +18,7 @@ A lightweight macOS menu bar app that shows:
 ## Data Refresh Behavior
 
 The app uses different polling intervals to reduce overhead:
-- on AC power: fast polling every `2` seconds (for charging power);
+- on AC power: polling every `2` seconds (charging power focus);
 - on battery: polling every `20` seconds;
 - battery percentage (`%`) refreshes every `20` seconds;
 - `Maximum Capacity` and `Condition` refresh only:
@@ -41,13 +40,13 @@ swift run
 
 ## Build and Install `.app`
 
-Use the project script:
+Use the project build/install script:
 
 ```bash
 ./scripts/build_and_install_app.sh
 ```
 
-After the script finishes:
+After it finishes:
 - build output: `dist/PowerApp.app`;
 - installed app: `/Applications/PowerApp.app`.
 
@@ -60,7 +59,7 @@ After the script finishes:
 ## Notes
 
 - If you update app icons, run the build/install script again.
-- Use `Update now` to refresh `Maximum Capacity` and `Condition` without restart.
+- Use `Update now` to refresh `Maximum Capacity` and `Condition` without restarting.
 
 ## License
 

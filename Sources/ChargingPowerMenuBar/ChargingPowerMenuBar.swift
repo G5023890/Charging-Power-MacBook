@@ -1,4 +1,5 @@
 import AppKit
+import CoreText
 import Foundation
 import IOKit
 import IOKit.ps
@@ -148,12 +149,29 @@ final class ChargingPowerMenuBarApp: NSObject, NSApplicationDelegate {
 
     private func setStatusTitle(_ title: String) {
         guard let button = statusItem.button else { return }
-        let baseFont = button.font ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
-        let reducedFont = baseFont.withSize(max(10.0, baseFont.pointSize * 0.9))
         button.attributedTitle = NSAttributedString(
             string: title,
-            attributes: [.font: reducedFont]
+            attributes: [.font: statusTitleFont(for: title, fallback: button.font)]
         )
+    }
+
+    private func statusTitleFont(for title: String, fallback: NSFont?) -> NSFont {
+        guard title.hasSuffix("%") || title.hasSuffix("w") else {
+            let baseFont = fallback ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
+            return baseFont.withSize(max(10.0, baseFont.pointSize * 0.9))
+        }
+
+        let baseDescriptor = NSFont.systemFont(ofSize: 11.0, weight: .semibold).fontDescriptor
+        let roundedDescriptor = baseDescriptor.withDesign(.rounded) ?? baseDescriptor
+        let monospacedDigitsDescriptor = roundedDescriptor.addingAttributes([
+            .featureSettings: [[
+                NSFontDescriptor.FeatureKey.typeIdentifier: kNumberSpacingType,
+                NSFontDescriptor.FeatureKey.selectorIdentifier: kMonospacedNumbersSelector
+            ]]
+        ])
+
+        return NSFont(descriptor: monospacedDigitsDescriptor, size: 11.0)
+            ?? NSFont.systemFont(ofSize: 11.0, weight: .semibold)
     }
 
     private func updatePollingInterval(for isOnACPower: Bool) {

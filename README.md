@@ -1,6 +1,6 @@
 # Charging Power Menu Bar
 
-![App Icon](Assets/app-icon.png)
+<img src="Assets/app-icon.png" alt="App Icon" width="256">
 
 A native macOS menu bar app for checking charging power, battery percentage, and battery health at a glance.
 
